@@ -251,7 +251,11 @@ class MetabaseSource(Source):
         )
 
         chart_urns = []
-        cards_data = dashboard_details.get("ordered_cards", "{}")
+        # Get cards from ordered_cards and dashcards for metabase version compatibility
+        cards_data = (
+            dashboard_details.get("ordered_cards", [])
+            + dashboard_details.get("dashcards", [])
+        )
         for card_info in cards_data:
             chart_urn = builder.make_chart_urn(
                 self.platform, card_info.get("card_id", "")
